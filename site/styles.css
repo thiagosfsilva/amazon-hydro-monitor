@@ -1,0 +1,175 @@
+/*
+project: amazon-hydro, monitor V2 prototype
+purpose: Layout and visual styles for the local preview
+author: OpenAI Codex, for Thiago Silva
+*/
+
+:root {
+  color-scheme: light;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #172e30;
+  background: #f5f7fa;
+  --ink-muted: #496360;
+  --line: #d3e0dc;
+  --surface: #fff;
+  --teal: #075e56;
+  --navy: #183e4c;
+  --plot-grid: #e5eaf0;
+  --plot-range: #c2e4ef;
+  --plot-mean: #526174;
+  --plot-current: #000;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 18px; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+a { color: inherit; }
+input { accent-color: var(--teal); }
+:focus-visible { outline: 2px solid #215d9b; outline-offset: 3px; }
+h1, h2, p, fieldset { margin: 0; }
+h1, h2 { letter-spacing: -.025em; }
+
+.shell { width: min(100% - 64px, 1392px); margin-inline: auto; }
+main.shell { font-size: 1.0625rem; }
+.controls, .chart-legend, .plot-label { font-family: 'Arial Narrow', 'Segoe UI', system-ui, sans-serif; }
+.site-header { background: #133d3b; color: #f3f9f6; }
+.masthead { display: flex; justify-content: space-between; align-items: center; min-height: 62px; gap: 16px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; padding-block: 16px; font-size: clamp(24px, 3vw, 38px); font-weight: 650; line-height: 1.12; }
+.brand-mark { display: grid; place-items: center; height: 28px; width: 28px; border-radius: 9px; background: #a9d4c3; color: #133d3b; font-size: 23px; line-height: 1; }
+.masthead a { font-size: 13px; font-weight: 600; text-decoration: none; }
+.masthead a:hover { text-decoration: underline; }
+
+.page-title { display: flex; justify-content: space-between; align-items: end; gap: 16px; padding: 14px 0; }
+.page-title p, .panel-head p, .section-head p { color: var(--ink-muted); font-size: 1rem; line-height: 1.4; }
+.snapshot { text-align: right; }
+
+.controls { display: flex; align-items: center; gap: 15px 24px; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 10px 15px 13px; margin-bottom: 18px; }
+.controls fieldset { border: 0; min-width: 0; padding: 0; }
+.controls legend { font-size: .9375rem; font-weight: 670; }
+.controls legend { margin-bottom: 4px; }
+.controls label { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; padding-right: 6px; font-size: .9375rem; white-space: nowrap; cursor: pointer; }
+.controls input[type='checkbox'] { margin: 0 3px 0 0; width: 15px; height: 15px; }
+.overlays { color: #294642; }
+#key-years { display: flex; flex-wrap: nowrap; gap: 8px; max-width: 100%; overflow-x: auto; }
+#key-years label { flex: none; padding-inline: 2px; gap: 5px; }
+#key-years input { width: 18px; height: 18px; margin: 0; }
+
+.overview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.panel { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.panel-head { padding: 17px 18px 13px; background: #f2f6fa; color: #304966; border-bottom: 1px solid #dbe4ec; margin-bottom: 10px; }
+.baseline-summary { padding: 0 18px 10px; color: #465972; font-size: .9375rem; font-variant-numeric: tabular-nums; }
+.panel-head h2 { font-size: 1.6875rem; line-height: 1.15; }
+.panel-head h2 + p { margin-top: 4px; }
+.station-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; padding-bottom: 12px; }
+.station-head .station-place { margin-bottom: 4px; font-weight: 650; }
+select { width: 100%; min-height: 35px; color: #183e39; border: 1px solid #c5d6d1; border-radius: 6px; background: #fff; padding: 3px 6px; cursor: pointer; }
+.map-select { flex: 0 1 180px; min-width: 110px; font-size: .9375rem; }
+.station-metrics { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 15px; padding: 0 18px 12px; }
+.metric { display: grid; gap: 2px; min-width: 58px; }
+.metric strong { font-size: 1.1875rem; font-weight: 680; line-height: 1.1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.latest-level { margin-right: auto; }
+.latest-level strong { font-size: clamp(1.875rem, 2.7vw, 2.5rem); color: var(--navy); }
+.trend-arrow { margin-right: 3px; color: var(--ink-muted); }
+.trend-arrow[data-direction="up"] { color: #00776c; }
+.trend-arrow[data-direction="down"] { color: #985519; }
+.metric span { color: var(--ink-muted); font-size: .875rem; }
+
+.map-panel { display: flex; flex-direction: column; }
+.map-controls { display: flex; gap: 5px; margin-top: 8px; }
+.map-controls select { width: auto; }
+.station-note { display: grid; margin: 6px 16px 12px; color: var(--ink-muted); font-size: .9375rem; line-height: 1.45; }
+.station-note > p { grid-area: 1 / 1; }
+.map-controls button { min-width: 40px; min-height: 40px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--navy); cursor: pointer; }
+.map-controls button:disabled { color: var(--ink-muted); opacity: .5; cursor: default; }
+.map { flex: 1 0 auto; min-height: 200px; height: clamp(210px, 24vw, 345px); background: #edf4f3; border-block: 1px solid #e2ece9; }
+.map > svg { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; }
+.map { position: relative; }
+.map > svg { position: absolute; inset: 0; overflow: hidden; }
+.map-panel .panel-head { margin-bottom: 0; }
+.map-panel.local-basemap { align-self: start; }
+.local-basemap .map { height: auto; min-height: 0; aspect-ratio: 720 / 522; }
+.map .zoomed { cursor: grab; }
+.map .zoomed:active { cursor: grabbing; }
+.point-hit { fill: transparent; }
+.point-mark { fill: #087267; stroke: white; stroke-width: 1.5; pointer-events: none; }
+.point:focus-visible .point-mark, .point:hover .point-mark { stroke: #143f52; stroke-width: 3; }
+.point[aria-pressed='true'] .point-mark { fill: #143f52; r: 7px; stroke-width: 2; }
+.map-station-label { text-anchor: middle; pointer-events: none; font-size: 1.125rem; font-weight: 680; fill: #153d39; stroke: #edf4f3; stroke-width: 4px; paint-order: stroke; }
+.map-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 36px; color: var(--ink-muted); padding: 7px 18px; font-size: .875rem; }
+.map-footer { flex-wrap: wrap; justify-content: flex-start; gap: 6px 14px; }
+.map-footer span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.map-footer .city-key { width: 6px; height: 6px; border-radius: 0; background: #594f44; }
+.map-footer .basin-key { border: 1.5px solid #69855c; background: #e3ecda; border-radius: 0; width: 14px; }
+.map-footer i { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+
+.season-plot { min-width: 0; padding: 0 12px 0 8px; }
+.season-plot svg { display: block; width: 100%; height: auto; }
+.plot-label { fill: var(--ink-muted); font-size: .875rem; }
+.plot-unit { font-weight: 650; }
+.plot-grid { stroke: var(--plot-grid); }
+.plot-range { fill: var(--plot-range); fill-opacity: .85; }
+.plot-mean, .plot-current, .plot-year { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.plot-mean { stroke: var(--plot-mean); stroke-width: 1.4; stroke-dasharray: 4 3; }
+.plot-current { stroke-width: 2.8; }
+.plot-year { stroke-width: 1.25; }
+.plot-cursor { stroke: #53685e; stroke-width: 1; stroke-dasharray: 2.5 2.5; }
+.plot-reading { fill: var(--plot-current); stroke: white; stroke-width: 1.5; }
+.cursor-value { color: #2d514c; padding: 9px 18px 13px; font-size: .9375rem; min-height: 36px; font-variant-numeric: tabular-nums; }
+.point, .plot-target { cursor: pointer; }
+
+.compare { margin-top: 31px; }
+.section-head { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-bottom: 14px; }
+.section-head h2 { font-size: 1.9375rem; }
+.section-head p { margin-top: 4px; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 13px; font-size: .875rem; color: var(--ink-muted); }
+.chart-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.overview-legend { padding: 0 0 12px; }
+#add-row { margin-top: 16px; padding: 10px 14px; color: var(--navy); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+.chart-legend i { width: 16px; height: 3px; border-radius: 2px; background: var(--legend-colour); }
+.chart-legend .band { height: 8px; }
+.chart-legend .mean { border-top: 2px dashed var(--plot-mean); height: 0; background: transparent; border-radius: 0; }
+.comparison-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.chart-card .station-metrics { padding-inline: 13px; }
+@media (min-width: 1021px) and (min-height: 620px) {
+  .controls { position: sticky; top: 0; z-index: 5; }
+  html { scroll-padding-top: 110px; }
+}
+.chart-card .panel-head { padding: 12px 13px 7px; }
+.chart-card select { min-height: 36px; font-size: 1.0625rem; font-weight: 650; }
+.chart-card .station-place { margin-block: 5px 2px; font-size: .875rem; }
+.chart-card .cursor-value { padding: 4px 13px 9px; min-height: 28px; }
+.cursor-value table { border-collapse: collapse; }
+.cursor-value caption { text-align: left; font-weight: 650; padding-bottom: .25em; }
+.cursor-value th { text-align: left; font-weight: 400; padding-right: 1.5em; }
+.cursor-value td { min-width: 7ch; text-align: right; white-space: nowrap; }
+.sources { color: var(--ink-muted); border-top: 1px solid var(--line); margin-block: 25px 30px; padding-top: 12px; font-size: .9375rem; line-height: 1.6; }
+.sources p + p { margin-top: 3px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 1020px) {
+  .shell { width: min(100% - 36px, 1392px); }
+}
+
+@media (max-width: 800px) {
+  .comparison-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .overview { grid-template-columns: minmax(0, 1fr); }
+  .map { height: clamp(225px, 46vw, 335px); }
+}
+
+@media (max-width: 540px) {
+  .shell { width: calc(100% - 28px); }
+  .masthead { min-height: 53px; }
+  .masthead a { font-size: 11px; white-space: nowrap; }
+  .brand { font-size: 22px; }
+  .brand-mark { height: 22px; width: 22px; font-size: 19px; }
+  .page-title { display: block; padding: 23px 0 16px; }
+  .snapshot { text-align: left; margin-top: 4px; }
+  .controls { gap: 7px 12px; padding: 9px 11px; }
+  .controls label { min-height: 33px; }
+  .panel-head { padding: 13px 13px 10px; }
+  .panel-head h2 { font-size: 1.5rem; }
+  .station-metrics, .map-footer, .cursor-value { padding-inline: 13px; }
+  .comparison-grid { grid-template-columns: minmax(0, 1fr); }
+  .section-head h2 { font-size: 1.6875rem; }
+}

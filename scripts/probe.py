@@ -13,21 +13,7 @@ from urllib.parse import urlencode
 from zoneinfo import ZoneInfo
 
 
-def request(route, headers, query=None):
-    path = "/hidrowebservice/EstacoesTelemetricas/" + route
-    if query:
-        path += "?" + urlencode(query)
-    connection = http.client.HTTPSConnection("www.ana.gov.br", timeout=45)
-    try:
-        connection.request("GET", path, headers=headers)
-        response = connection.getresponse()
-        print(f"{route}: HTTP {response.status}", flush=True)
-        if response.status != 200:
-            raise RuntimeError(f"ANA returned HTTP {response.status}")
-        return json.load(response)["items"]
-    finally:
-        connection.close()
-
+from ana_request import request
 
 end = dt.datetime.now(ZoneInfo("America/Manaus")).date() - dt.timedelta(days=1)
 start = end - dt.timedelta(days=6)

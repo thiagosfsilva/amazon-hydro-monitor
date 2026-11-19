@@ -1,0 +1,96 @@
+<!doctype html>
+<!--
+project: amazon-hydro, monitor V2 prototype
+purpose: Compare seasonal water levels at ANA river gauges
+author: OpenAI Codex, for Thiago Silva
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monitor Hidrológico da Amazônia</title>
+  <link rel="stylesheet" href="styles.css?v=map-fill-only">
+  <script defer src="views/v2_prototype.js?v=warm-cool-years"></script>
+  <script defer src="views/monitor_boundary.js"></script>
+  <script defer src="graphics.js?v=map-fill"></script>
+  <script defer src="monitor.js?v=default-years-2024-2021"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell masthead">
+      <h1 class="brand"><span class="brand-mark" aria-hidden="true">≈</span> Monitor Hidrológico da Amazônia</h1>
+      <a href="#compare">Comparar estações <span aria-hidden="true">↓</span></a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div class="page-title">
+      <p id="coverage"></p>
+      <p class="snapshot" id="snapshot"></p>
+    </div>
+    <p id="load-error" hidden>Dados indisponíveis. Gere os dados do protótipo e recarregue esta página.</p>
+
+    <section class="controls" aria-label="Opções para todos os gráficos">
+      <fieldset class="overlays">
+        <legend>Referência</legend>
+        <label><input type="checkbox" value="mean" checked> Média histórica</label>
+        <label><input type="checkbox" value="range" checked> Média ± 1,96 desvios-padrão</label>
+      </fieldset>
+      <fieldset>
+        <legend>Mostrar anos extremos</legend>
+        <div id="key-years"></div>
+      </fieldset>
+    </section>
+
+    <div class="chart-legend overview-legend" id="chart-legend" aria-label="Legenda dos gráficos"></div>
+    <section class="overview" aria-label="Mapa e estação selecionada">
+      <article class="panel map-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Mapa das estações</h2>
+            <p>Use a roda do mouse para ampliar ou reduzir. Arraste para explorar.</p>
+          </div>
+          <div class="map-controls" role="group" aria-label="Controles do mapa">
+            <button id="zoom-reset" type="button">Ver toda a bacia</button>
+            <select id="basemap" aria-label="Fundo do mapa"><option value="osm">Open Street Map</option><option value="satellite">ESRI satélite</option><option value="local">Mapa básico</option></select>
+          </div>
+        </div>
+        <div id="map" class="map" aria-label="Localização das estações da ANA"></div>
+        <div class="map-footer">
+          <span><i aria-hidden="true"></i> Estação da ANA</span>
+          <span><i class="basin-key" aria-hidden="true"></i> Limite da bacia hidrográfica</span>
+          <a id="map-credit"></a>
+          <small id="map-status" role="status"></small>
+        </div>
+      </article>
+
+      <article class="panel station-panel" id="station-panel">
+        <div class="panel-head station-head">
+          <div>
+            <p class="station-place" id="station-place"></p>
+            <h2 id="station-name" aria-live="polite"></h2>
+          </div>
+          <label class="map-select"><span class="visually-hidden">Estação selecionada no mapa</span><select id="map-select"></select></label>
+        </div>
+        <div class="station-metrics" id="station-metrics"></div>
+        <p class="baseline-summary" id="baseline-summary"></p>
+        <div class="season-plot" id="station-plot"></div>
+        <div class="cursor-value" id="station-cursor"></div>
+      </article>
+    </section>
+
+    <section class="compare" id="compare" aria-labelledby="compare-title">
+      <div class="section-head">
+        <div>
+          <h2 id="compare-title">Comparar estações</h2>
+          <p>Selecione uma estação em cada gráfico. Todos os gráficos acompanham a mesma data.</p>
+        </div>
+      </div>
+      <div class="comparison-grid" id="comparison-grid"></div>
+      <button type="button" id="add-row">Adicionar três estações</button>
+    </section>
+
+    <footer class="sources" id="sources"></footer>
+  </main>
+</body>
+</html>
