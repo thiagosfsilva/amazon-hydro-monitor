@@ -9,11 +9,11 @@ author: OpenAI Codex, for Thiago Silva
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Monitor Hidrológico da Amazônia</title>
-  <link rel="stylesheet" href="styles.css?v=map-fill-only">
+  <link rel="stylesheet" href="styles.css?v=mobile-map">
   <script defer src="views/v2_prototype.js?v=warm-cool-years"></script>
   <script defer src="views/monitor_boundary.js"></script>
-  <script defer src="graphics.js?v=map-fill"></script>
-  <script defer src="monitor.js?v=default-years-2024-2021"></script>
+  <script defer src="graphics.js?v=mobile-map"></script>
+  <script defer src="monitor.js?v=mobile-map"></script>
 </head>
 <body>
   <header class="site-header">
@@ -45,6 +45,8 @@ author: OpenAI Codex, for Thiago Silva
     <div class="chart-legend overview-legend" id="chart-legend" aria-label="Legenda dos gráficos"></div>
     <section class="overview" aria-label="Mapa e estação selecionada">
       <article class="panel map-panel">
+        <button type="button" class="map-toggle" aria-controls="map-content" aria-expanded="false">Mostrar mapa das estações</button>
+        <div id="map-content">
         <div class="panel-head">
           <div>
             <h2>Mapa das estações</h2>
@@ -61,6 +63,7 @@ author: OpenAI Codex, for Thiago Silva
           <span><i class="basin-key" aria-hidden="true"></i> Limite da bacia hidrográfica</span>
           <a id="map-credit"></a>
           <small id="map-status" role="status"></small>
+        </div>
         </div>
       </article>
 

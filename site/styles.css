@@ -76,6 +76,8 @@ select { width: 100%; min-height: 35px; color: #183e39; border: 1px solid #c5d6d
 .metric span { color: var(--ink-muted); font-size: .875rem; }
 
 .map-panel { display: flex; flex-direction: column; }
+#map-content { display: flex; flex: 1; flex-direction: column; }
+.map-toggle { display: none; }
 .map-controls { display: flex; gap: 5px; margin-top: 8px; }
 .map-controls select { width: auto; }
 .station-note { display: grid; margin: 6px 16px 12px; color: var(--ink-muted); font-size: .9375rem; line-height: 1.45; }
@@ -152,6 +154,14 @@ select { width: 100%; min-height: 35px; color: #183e39; border: 1px solid #c5d6d
 }
 
 @media (max-width: 800px) {
+  .map-toggle { display: block; width: 100%; padding: 12px 16px; min-height: 44px; text-align: left; background: #f2f6fa; color: #304966; border: 0; font-weight: 650; }
+  .map-toggle::after { content: '▾'; float: right; }
+  .map-toggle[aria-expanded='true']::after { content: '▴'; }
+  .map-toggle[aria-expanded='false'] + #map-content { display: none; }
+  .overview > .controls, .overview > .overview-legend { margin: 0; padding-bottom: 8px; }
+  .map .point-hit { r: 22px; }
+  .map .point-mark { r: 7px; }
+  .map .point[aria-pressed='true'] .point-mark { r: 9px; }
   .comparison-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .overview { grid-template-columns: minmax(0, 1fr); }
   .map { height: clamp(225px, 46vw, 335px); }

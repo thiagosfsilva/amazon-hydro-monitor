@@ -41,7 +41,7 @@ function drawMap(target, stations, selectStation) {
   }
   const visibleTiles = new Map();
   function drawTiles() {
-    if (layer.value === 'local') return;
+    if (layer.value === 'local' || !map.clientWidth) return;
     const worldWidth = 360 * 18;
     const level = Math.max(0, Math.round(Math.log2(worldWidth * zoom * (map.getScreenCTM()?.a || 1) / 256)));
     const size = worldWidth / 2 ** level;
@@ -126,13 +126,15 @@ function drawMap(target, stations, selectStation) {
     drawTiles();
     map.classList.toggle('zoomed', zoom > 1);
     reset.disabled = zoom <= 1;
+    const symbolScale = matchMedia('(max-width: 800px)').matches
+      ? 1 / (zoom * (map.getScreenCTM()?.a || 1)) : 1 / zoom;
     for (const station of stations) {
       markers.get(station.code).setAttribute('transform',
-        `translate(${x(station.longitude)} ${y(station.latitude)}) scale(${1 / zoom})`);
+        `translate(${x(station.longitude)} ${y(station.latitude)}) scale(${symbolScale})`);
     }
     if (selected) {
       stationLabel.setAttribute('transform',
-        `translate(${x(selected.longitude)} ${y(selected.latitude)}) scale(${1 / zoom})`);
+        `translate(${x(selected.longitude)} ${y(selected.latitude)}) scale(${symbolScale})`);
     }
   }
 
@@ -224,7 +226,7 @@ function drawMap(target, stations, selectStation) {
   }
   layer.onchange = () => { status.textContent = ''; changeLayer(); };
   changeLayer();
-  new ResizeObserver(drawTiles).observe(target);
+  new ResizeObserver(showView).observe(target);
 
   return {
     select(code) {

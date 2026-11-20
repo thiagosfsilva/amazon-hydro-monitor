@@ -190,6 +190,22 @@ function initialize() {
     drawCard(detail);
   }
 
+  const mobile = matchMedia('(max-width: 800px)');
+  const controls = document.querySelector('.controls');
+  const overview = document.querySelector('.overview');
+  const legend = get('chart-legend');
+  const toggle = document.querySelector('.map-toggle');
+  function arrangeControls() {
+    const anchor = mobile.matches ? get('station-panel') : overview;
+    anchor.before(controls, legend);
+  }
+  arrangeControls();
+  mobile.addEventListener('change', arrangeControls);
+  toggle.onclick = () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? 'Ocultar mapa das estações' : 'Mostrar mapa das estações';
+  };
   const map = drawMap(get('map'), data.stations, selectOnMap);
   selectOnMap(state.station);
   upperStation.addEventListener('change', () => selectOnMap(upperStation.value));
