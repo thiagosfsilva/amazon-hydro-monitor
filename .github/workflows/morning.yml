@@ -1,0 +1,31 @@
+name: Morning refresh trigger
+on:
+  schedule:
+    - cron: '23 22,4,6 * * *'
+  workflow_dispatch:
+permissions:
+  actions: write
+concurrency:
+  group: morning-trigger
+  cancel-in-progress: false
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request one publication for the completed Manaus day
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          hour=$(date -u +%H)
+          if (( 10#$hour < 4 || 10#$hour >= 22 )); then
+            echo "Outside today's refresh window."
+            exit 0
+          fi
+          since=$(date -u +%F)T04:00:00Z
+          runs=$(gh run list --workflow publish.yml --created ">=$since" --limit 100 --json status,conclusion)
+          if jq -e 'any(.[]; .status != "completed" or .conclusion == "success")' <<< "$runs"; then
+            echo "Publication already active or completed today."
+          else
+            gh workflow run publish.yml --ref main
+          fi

@@ -1,8 +1,6 @@
 name: Refresh and publish monitor
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '23 6 * * *'
 concurrency:
   group: publish-monitor
   cancel-in-progress: false

@@ -20,7 +20,7 @@ converte centímetros em metros. A janela de revisão cobre pelo menos os
 últimos 14 dias e recua até o último registro quando há atraso.
 Uma consulta sem resposta útil preserva as leituras já salvas.
 
-A ação **Refresh and publish monitor** é agendada para 06:23 UTC e também
+A ação **Morning refresh trigger** tem chamadas às 22:23 UTC da véspera, 04:23 e 06:23 UTC para compensar atrasos no agendamento do GitHub. Entre 04:00 e 22:00 UTC, solicita a publicação se ainda não houve sucesso no dia e nenhuma execução está em andamento. A ação **Refresh and publish monitor** também
 pode ser iniciada manualmente. Usa os segredos de repositório `ANA_USER`
 e `ANA_PASS`. O histórico de execuções mostra quais estações responderam.
 Após a atualização, a ação registra os dados em git e publica o diretório
